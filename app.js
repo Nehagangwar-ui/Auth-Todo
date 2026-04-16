@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./data/db");
 const path = require("path");
+const cors = require("cors"); // ✅ add this
 
 const app = express();
 
@@ -9,19 +10,25 @@ const app = express();
 connectDB();
 
 // Middleware
+app.use(cors()); // ✅ important for frontend-backend connection
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from current directory
+// Serve static files
 app.use(express.static(__dirname));
 
-// Routes
-app.use("/auth", require("./routes/auth"));
-app.use("/todos", require("./routes/Todo"));
+// API Routes
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/todos", require("./routes/Todo"));
 
-// Serve index.html for root route
+// Root route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// ❗ 404 handler (VERY IMPORTANT)
+app.use((req, res) => {
+  res.status(404).json({ message: "Route Not Found" });
 });
 
 // Error handling middleware

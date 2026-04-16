@@ -4,7 +4,7 @@ const router = express.Router();
 const Todo = require("../models/Todo");
 const auth = require("../middleware/authMiddleware");
 
-// ✅ Add Todo
+// ✅ Create Todo - POST /todos
 router.post("/", auth, async (req, res) => {
   try {
     const { text } = req.body;
@@ -31,7 +31,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// ✅ Get All Todos
+// ✅ Get All Todos - GET /todos
 router.get("/", auth, async (req, res) => {
   try {
     const todos = await Todo.find({ userId: req.user.id }).sort({ createdAt: -1 });
@@ -42,7 +42,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// ✅ Update Todo (Toggle completed)
+// ✅ Update Todo Status - PATCH /todos/:id
 router.patch("/:id", auth, async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
@@ -65,7 +65,7 @@ router.patch("/:id", auth, async (req, res) => {
   }
 });
 
-// ✅ Delete Todo
+// ✅ Delete Todo - DELETE /todos/:id
 router.delete("/:id", auth, async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
