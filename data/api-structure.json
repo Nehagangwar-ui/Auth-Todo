@@ -1,0 +1,158 @@
+{
+  "registration": {
+    "request": {
+      "method": "POST",
+      "endpoint": "/auth/register",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "user@example.com",
+        "password": "password123"
+      }
+    },
+    "response_success": {
+      "status": 201,
+      "data": {
+        "message": "User registered successfully",
+        "user": {
+          "_id": "507f1f77bcf86cd799439011",
+          "email": "user@example.com",
+          "createdAt": "2024-04-15T10:00:00Z"
+        }
+      }
+    },
+    "response_error": {
+      "status": 400,
+      "data": {
+        "message": "User already exists or invalid input"
+      }
+    }
+  },
+  "login": {
+    "request": {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "user@example.com",
+        "password": "password123"
+      }
+    },
+    "response_success": {
+      "status": 200,
+      "data": {
+        "message": "Login successful",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "user": {
+          "_id": "507f1f77bcf86cd799439011",
+          "email": "user@example.com"
+        }
+      }
+    },
+    "response_error": {
+      "status": 401,
+      "data": {
+        "message": "Invalid email or password"
+      }
+    }
+  },
+  "todos": {
+    "add_todo": {
+      "request": {
+        "method": "POST",
+        "endpoint": "/todos",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer token"
+        },
+        "body": {
+          "text": "Buy groceries",
+          "completed": false
+        }
+      },
+      "response_success": {
+        "status": 201,
+        "data": {
+          "message": "Todo created",
+          "todo": {
+            "_id": "507f1f77bcf86cd799439012",
+            "text": "Buy groceries",
+            "completed": false,
+            "userId": "507f1f77bcf86cd799439011",
+            "createdAt": "2024-04-15T10:00:00Z"
+          }
+        }
+      }
+    },
+    "get_todos": {
+      "request": {
+        "method": "GET",
+        "endpoint": "/todos",
+        "headers": {
+          "Authorization": "Bearer token"
+        }
+      },
+      "response_success": {
+        "status": 200,
+        "data": [
+          {
+            "_id": "507f1f77bcf86cd799439012",
+            "text": "Buy groceries",
+            "completed": false,
+            "userId": "507f1f77bcf86cd799439011",
+            "createdAt": "2024-04-15T10:00:00Z"
+          },
+          {
+            "_id": "507f1f77bcf86cd799439013",
+            "text": "Complete project",
+            "completed": true,
+            "userId": "507f1f77bcf86cd799439011",
+            "createdAt": "2024-04-15T09:00:00Z"
+          }
+        ]
+      }
+    },
+    "update_todo": {
+      "request": {
+        "method": "PATCH",
+        "endpoint": "/todos/:id",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer token"
+        },
+        "body": {
+          "completed": true
+        }
+      },
+      "response_success": {
+        "status": 200,
+        "data": {
+          "message": "Todo updated",
+          "todo": {
+            "_id": "507f1f77bcf86cd799439012",
+            "text": "Buy groceries",
+            "completed": true
+          }
+        }
+      }
+    },
+    "delete_todo": {
+      "request": {
+        "method": "DELETE",
+        "endpoint": "/todos/:id",
+        "headers": {
+          "Authorization": "Bearer token"
+        }
+      },
+      "response_success": {
+        "status": 200,
+        "data": {
+          "message": "Todo deleted successfully"
+        }
+      }
+    }
+  }
+}
